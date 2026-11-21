@@ -50,6 +50,7 @@ const routes = {
     return jobs.add({
       id: crypto.randomBytes(5).toString('hex'), type: 'topic', courseId: course.id, courseName: course.name,
       courseUrl: course.url, title: body.topic.trim(), details: (body.details || '').trim(),
+      primaryResources: await notion.primaryResources(course.id),
     });
   },
 };
