@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { spawn } = require('child_process');
 const notion = require('./lib/notion');
 const { scan } = require('./lib/scan');
 const jobs = require('./lib/jobs');
@@ -9,6 +10,15 @@ const { config } = require('./lib/store');
 
 const PORT = Number(process.env.PORT || 4321);
 const PUBLIC = path.join(__dirname, 'public');
+const APP_URL = `http://localhost:${PORT}`;
+const OPEN_BROWSER = process.argv.includes('--open');
+
+function openBrowser(url) {
+  const [cmd, args] = process.platform === 'win32' ? ['cmd', ['/c', 'start', '', url]]
+    : process.platform === 'darwin' ? ['open', [url]]
+      : ['xdg-open', [url]];
+  spawn(cmd, args, { stdio: 'ignore', detached: true }).on('error', () => {}).unref();
+}
 
 const send = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
@@ -57,7 +67,7 @@ const routes = {
 
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css' };
 
-http.createServer(async (req, res) => {
+const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const handler = routes[`${req.method} ${url.pathname}`];
   if (handler) {
@@ -72,4 +82,19 @@ http.createServer(async (req, res) => {
   if (!file.startsWith(PUBLIC) || !fs.existsSync(file)) { res.writeHead(404); res.end('Not found'); return; }
   res.writeHead(200, { 'content-type': MIME[path.extname(file)] || 'application/octet-stream' });
   fs.createReadStream(file).pipe(res);
-}).listen(PORT, () => console.log(`CourseSmith running at http://localhost:${PORT}`));
+});
+
+server.on('error', (e) => {
+  if (e.code === 'EADDRINUSE' && OPEN_BROWSER) {
+    console.log(`CourseSmith is already running at ${APP_URL}`);
+    openBrowser(APP_URL);
+    setTimeout(() => process.exit(0), 500);
+    return;
+  }
+  throw e;
+});
+
+server.listen(PORT, () => {
+  console.log(`CourseSmith running at ${APP_URL} (close this window to stop it)`);
+  if (OPEN_BROWSER) openBrowser(APP_URL);
+});

@@ -10,8 +10,19 @@ Jobs are processed by the worker (Devin, through the Notion connector): it reads
 
 ## Run
 
+Double-click the launcher for your OS. It starts the server and opens http://localhost:4321 in your browser (if the server is already running, it just opens the browser). Close the window to stop it.
+
+| OS | Launcher | First-time note |
+|---|---|---|
+| Windows | `Start CourseSmith (Windows).bat` | None |
+| macOS | `Start CourseSmith (Mac).command` | If blocked, right-click → Open once |
+| Linux | `Start CourseSmith (Linux).sh` | Allow running as a program (file manager or `chmod +x`) |
+
+Or from a terminal:
+
 ```bash
 npm start            # http://localhost:4321
+npm run open         # same, and opens the browser
 ```
 
 No dependencies besides Node 18+. Reads use the public `notion.site` API (`NOTION_SITE`, `NOTION_DASHBOARD_ID` env vars to override). Config and the job queue live in `data/`.
