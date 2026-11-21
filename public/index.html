@@ -13,6 +13,14 @@
 </header>
 <main>
   <section>
+    <h2>Notion dashboard</h2>
+    <p class="hint">Paste the published link of your Student OS dashboard (Notion: Share → Publish → copy the <code>notion.site</code> link).</p>
+    <form id="settings" class="inline">
+      <input name="dashboardUrl" id="dashboardUrl" placeholder="https://your-name.notion.site/Student-OS-Dashboard-…" required>
+      <button type="submit">Connect</button>
+    </form>
+  </section>
+  <section>
     <div class="row"><h2>1. Course folders</h2><button id="reload" class="ghost">Reload from Notion</button></div>
     <p class="hint">Each folder should contain <code>Resources</code> and <code>Assignments</code>.</p>
     <form id="setup"><div id="courses">Loading courses from Notion…</div>

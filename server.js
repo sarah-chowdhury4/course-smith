@@ -32,6 +32,20 @@ const readBody = (req) => new Promise((resolve, reject) => {
 });
 
 const routes = {
+  'GET /api/settings': async () => {
+    const { notion: saved } = config.get();
+    return { dashboardUrl: (saved && saved.url) || '' };
+  },
+  'POST /api/settings': async (body) => {
+    let dash;
+    try { dash = notion.parseDashboardUrl(body.dashboardUrl); } catch (e) { throw Object.assign(e, { status: 400 }); }
+    const dbs = await notion.loadDatabases(dash).catch((e) => { throw Object.assign(e, { status: 400 }); });
+    const cfg = config.get();
+    if (cfg.notion && cfg.notion.pageId !== dash.pageId) cfg.courses = {};
+    cfg.notion = dash;
+    config.set(cfg);
+    return { dashboardUrl: dash.url, databases: Object.keys(dbs) };
+  },
   'GET /api/courses': async () => {
     const snap = await notion.snapshot();
     const cfg = config.get();

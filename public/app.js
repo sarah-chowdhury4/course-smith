@@ -76,7 +76,18 @@ $('#topic').addEventListener('submit', async (e) => {
   } catch (err) { toast(err.message); }
 });
 
+$('#settings').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try {
+    const r = await api('/api/settings', { dashboardUrl: $('#dashboardUrl').value });
+    $('#dashboardUrl').value = r.dashboardUrl;
+    toast('Dashboard connected');
+    loadCourses();
+  } catch (err) { toast(err.message); }
+});
+
 $('#reload').addEventListener('click', loadCourses);
+api('/api/settings').then((s) => { $('#dashboardUrl').value = s.dashboardUrl; });
 loadCourses();
 api('/api/jobs').then(renderJobs);
 setInterval(() => api('/api/jobs').then(renderJobs).catch(() => {}), 5000);
