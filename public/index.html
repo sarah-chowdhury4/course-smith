@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CourseSmith</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>CourseSmith</h1>
+  <p>Keeps your course folders and your Notion Student OS dashboard in sync.</p>
+</header>
+<main>
+  <section>
+    <div class="row"><h2>1. Course folders</h2><button id="reload" class="ghost">Reload from Notion</button></div>
+    <p class="hint">Each folder should contain <code>Resources</code> and <code>Assignments</code>.</p>
+    <form id="setup"><div id="courses">Loading courses from Notion…</div>
+      <button type="submit">Save folders</button></form>
+  </section>
+  <section>
+    <div class="row"><h2>2. Sync</h2><button id="scan">Scan folders</button></div>
+    <div id="report"></div>
+  </section>
+  <section>
+    <h2>3. Extra notes on a topic</h2>
+    <form id="topic" class="grid">
+      <select name="courseId" id="topicCourse" required></select>
+      <input name="topic" placeholder="Topic, e.g. Process scheduling" required>
+      <input name="details" placeholder="Focus / depth (optional)">
+      <button type="submit">Request notes</button>
+    </form>
+  </section>
+  <section>
+    <div class="row"><h2>Job queue</h2><span class="hint">Pending jobs are picked up by the worker (Devin).</span></div>
+    <table><thead><tr><th>Type</th><th>Course</th><th>Title</th><th>Status</th><th>Result</th></tr></thead>
+      <tbody id="jobs"></tbody></table>
+  </section>
+</main>
+<div id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+:root { --fg:#1f2328; --muted:#656d76; --line:#d0d7de; --accent:#2f6feb; --bg:#f6f8fa; }
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; color:var(--fg); background:var(--bg); }
+header { background:#fff; border-bottom:1px solid var(--line); padding:20px 32px; }
+header h1 { margin:0; font-size:22px; } header p { margin:4px 0 0; color:var(--muted); }
+main { max-width:980px; margin:24px auto; padding:0 16px; display:grid; gap:20px; }
+section { background:#fff; border:1px solid var(--line); border-radius:8px; padding:18px 20px; }
+h2 { margin:0 0 8px; font-size:17px; }
+.row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.hint { color:var(--muted); font-size:13px; margin:0 0 12px; }
+.course { display:grid; grid-template-columns: 240px 1fr; gap:12px; align-items:center; padding:8px 0; border-top:1px solid #eee; }
+.course a { color:var(--fg); font-weight:600; text-decoration:none; }
+input, select { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; }
+button.ghost { background:#fff; color:var(--accent); border:1px solid var(--line); }
+form#setup button { margin-top:12px; }
+.grid { display:grid; grid-template-columns: 220px 1fr 1fr auto; gap:10px; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th, td { text-align:left; padding:6px 8px; border-top:1px solid #eee; vertical-align:top; }
+th { color:var(--muted); font-weight:600; }
+.badge { padding:2px 8px; border-radius:10px; font-size:12px; background:#eee; }
+.pending { background:#fff4ce; } .done { background:#dafbe1; } .failed { background:#ffebe9; }
+.report h3 { font-size:15px; margin:12px 0 4px; } .report ul { margin:0; padding-left:20px; }
+.ok { color:#1a7f37; } .todo { color:#9a6700; } .warn { color:#cf222e; }
+#toast { position:fixed; bottom:20px; right:20px; background:#1f2328; color:#fff; padding:10px 14px; border-radius:6px; display:none; }

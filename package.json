@@ -1,0 +1,8 @@
+{
+  "name": "coursesmith",
+  "version": "0.1.0",
+  "description": "Sync course folders with a Notion Student OS dashboard",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "jobs": "node worker.js list" },
+  "license": "MIT"
+}
