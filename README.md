@@ -55,19 +55,38 @@ On each course page, add a **Primary Resources** heading followed by a list of t
 
 ## Running and testing
 
-### 1. Install
+### 1. Install (once)
 
-- [Node.js](https://nodejs.org) 18+, Python 3 and `pip install python-docx` (for assignment drafts)
-- Clone the repo: `git clone https://github.com/sarah-chowdhury4/course-smith.git`
+1. Install [Node.js](https://nodejs.org/en/download) 18+ and [Python 3](https://www.python.org/downloads/), and sign up for Devin at [app.devin.ai](https://app.devin.ai).
+2. Clone the repo: `git clone https://github.com/sarah-chowdhury4/course-smith.git`
+3. Double-click the install script for your OS:
 
-### 2. Set up Devin (once)
+| OS | Install script | First-time note |
+|---|---|---|
+| Windows | `Install CourseSmith (Windows).bat` | None |
+| macOS | `Install CourseSmith (Mac).command` | If macOS blocks it, right-click → Open once |
+| Linux | `Install CourseSmith (Linux).sh` | Allow running as a program (in the file manager or with `chmod +x`) |
 
-1. Sign up at [app.devin.ai](https://app.devin.ai).
-2. Install the Devin CLI:
-   - **Windows:** run the [installer](https://static.devin.ai/cli/devin-updater-x86_64-pc-windows.exe) ([ARM64](https://static.devin.ai/cli/devin-updater-aarch64-pc-windows.exe)), or in PowerShell run `irm https://static.devin.ai/cli/setup.ps1 | iex`
-   - **macOS / Linux:** `curl -fsSL https://cli.devin.ai/install.sh | bash` (or `brew install --cask devin-cli` on macOS)
-3. Open a new terminal and run `devin auth login`.
-4. In the CourseSmith folder, run `devin mcp login notion` and allow access to your copy of the dashboard. The Notion server is already configured in `.devin/mcp_config.json`.
+The script checks for Node.js and Python and opens the download page if one is missing. It then installs the Python packages from `requirements.txt` (`python-docx`, `pypdf`) and the [Devin CLI](https://docs.devin.ai/work-with-devin/devin-cli). Last, it runs two browser sign-ins:
+- `devin auth login` signs you in to Devin.
+- `devin mcp login notion` connects Notion. Allow access to your copy of the dashboard. The Notion server is already configured in `.devin/mcp_config.json`.
+
+<details><summary>Manual install</summary>
+
+```bash
+python -m pip install --user -r requirements.txt     # python3 on macOS / Linux
+# Devin CLI
+#   Windows (PowerShell): irm https://static.devin.ai/cli/setup.ps1 | iex
+#   macOS / Linux:        curl -fsSL https://cli.devin.ai/install.sh | bash
+devin auth login
+devin mcp login notion                               # run inside the CourseSmith folder
+```
+
+</details>
+
+### 2. Restart after installing
+
+If CourseSmith was already running, close it and start it again so it finds the new `devin` command.
 
 ### 3. Start the app
 

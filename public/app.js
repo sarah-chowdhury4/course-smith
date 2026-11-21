@@ -103,7 +103,7 @@ $('#settings').addEventListener('submit', async (e) => {
 $('#reload').addEventListener('click', loadCourses);
 api('/api/settings').then((s) => { $('#dashboardUrl').value = s.dashboardUrl; });
 api('/api/devin').then((d) => {
-  if (!d.installed) $('#devinHint').innerHTML = '<span class="warn">Devin CLI not found.</span> Install it (README → Devin setup), then restart CourseSmith.';
+  if (!d.installed) $('#devinHint').innerHTML = '<span class="warn">Devin CLI not found.</span> Run the Install CourseSmith script for your OS, then restart CourseSmith.';
 });
 loadCourses();
 api('/api/jobs').then(renderJobs);
