@@ -8,6 +8,14 @@ Local web app that keeps course folders in sync with the Notion **Student OS Das
 
 Jobs are processed by the worker (Devin, through the Notion connector): it reads the source file, writes the note or the formatted assignment draft (`<brief> - Submission.docx`, saved next to the brief), creates the Notion page with the course relation, and marks the job done.
 
+## Getting started
+
+1. **Install** Node.js 18+, Python 3 and `pip install python-docx`, then clone this repo.
+2. **Notion:** make your own copy of the dashboard ([Notion setup](#notion-setup)).
+3. **Devin:** connect Notion to Devin once ([Devin setup](#devin-setup)).
+4. **Run:** double-click the launcher for your OS ([Run](#run)), connect your dashboard, add your course folders and click **Scan folders**.
+5. **Process:** ask Devin to process the queue ([Daily use](#daily-use)).
+
 ## Notion setup
 
 CourseSmith reads your dashboard through its public `notion.site` link and writes through the Notion connector, so you need your own copy of the dashboard.
@@ -35,6 +43,27 @@ On each course page, add a heading **Primary Resources** followed by a list of t
 Then publish the page (step 3 above) and connect it in the app.
 
 Switching to a different dashboard clears the saved course folders, because folders are matched by Notion course ID.
+
+## Devin setup
+
+CourseSmith has no AI of its own and needs no API keys. Devin does the reading and writing, and uses [`AGENTS.md`](AGENTS.md) for the exact steps.
+
+1. **Devin account:** sign in at [app.devin.ai](https://app.devin.ai).
+2. **Connect Notion (once):** in Devin, go to **Customize → MCPs → Browse marketplace → Notion**, install it, and finish the Notion sign-in. Give it access to your copy of the dashboard. Details: [Devin MCP docs](https://docs.devin.ai/work-with-devin/mcp).
+3. **Let Devin reach your computer:** Devin sessions run in the cloud, so Devin asks for access to your machine to read your course folders and the job queue. Approve the request in [Devin Desktop](https://docs.devin.ai/desktop/introducing-devin-desktop), or run the `devin connect <CODE>` command shown on the request card with the [Devin CLI](https://docs.devin.ai/work-with-devin/local-hands). You approve each command Devin runs unless you turn on bypass.
+
+## Daily use
+
+1. Start CourseSmith, add any new files to your course folders and click **Scan folders**. Request topic notes if you want them.
+2. Start a Devin session and paste:
+
+   ```text
+   Process my CourseSmith queue. The project is at <full path to your CourseSmith folder> on my computer.
+   Request access to my machine, then read AGENTS.md in that folder and follow it.
+   ```
+
+3. Approve the machine-access request. Devin writes the notes and assignment drafts, creates the Notion pages with the course linked, and marks each job done.
+4. Refresh CourseSmith. Finished jobs show a link to their Notion page, and a new scan shows everything as synced.
 
 ## Run
 
