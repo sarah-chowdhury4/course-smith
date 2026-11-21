@@ -56,12 +56,26 @@ $('#setup').addEventListener('submit', async (e) => {
   toast('Folders saved');
 });
 
+async function processWithDevin() {
+  $('#process').disabled = true;
+  try {
+    const r = await api('/api/devin', {});
+    toast(`Devin started on ${r.pending} job(s)`);
+    setTimeout(() => { $('#process').disabled = false; }, 30000);
+  } catch (e) { toast(e.message); $('#process').disabled = false; }
+}
+
+$('#process').addEventListener('click', processWithDevin);
+$('#autoProcess').checked = localStorage.autoProcess === '1';
+$('#autoProcess').addEventListener('change', (e) => { localStorage.autoProcess = e.target.checked ? '1' : '0'; });
+
 $('#scan').addEventListener('click', async () => {
   $('#scan').disabled = true;
   try {
     const r = await api('/api/scan', {});
     renderReport(r.report); renderJobs(r.jobs);
     toast(`${r.added} new job(s) queued`);
+    if (r.added && $('#autoProcess').checked) processWithDevin();
   } catch (e) { toast(e.message); }
   $('#scan').disabled = false;
 });
@@ -88,6 +102,9 @@ $('#settings').addEventListener('submit', async (e) => {
 
 $('#reload').addEventListener('click', loadCourses);
 api('/api/settings').then((s) => { $('#dashboardUrl').value = s.dashboardUrl; });
+api('/api/devin').then((d) => {
+  if (!d.installed) $('#devinHint').innerHTML = '<span class="warn">Devin CLI not found.</span> Install it (README → Devin setup), then restart CourseSmith.';
+});
 loadCourses();
 api('/api/jobs').then(renderJobs);
 setInterval(() => api('/api/jobs').then(renderJobs).catch(() => {}), 5000);

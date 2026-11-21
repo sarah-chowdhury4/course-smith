@@ -40,7 +40,11 @@
     </form>
   </section>
   <section>
-    <div class="row"><h2>Job queue</h2><span class="hint">Pending jobs run when you ask Devin to “Process my CourseSmith queue” (README → Daily use).</span></div>
+    <div class="row"><h2>Job queue</h2>
+      <button id="process" type="button">Process with Devin</button>
+      <label class="hint"><input type="checkbox" id="autoProcess"> Start Devin automatically after a scan</label>
+    </div>
+    <p class="hint" id="devinHint">Opens a terminal where Devin works through the pending jobs.</p>
     <table><thead><tr><th>Type</th><th>Course</th><th>Title</th><th>Status</th><th>Result</th></tr></thead>
       <tbody id="jobs"></tbody></table>
   </section>

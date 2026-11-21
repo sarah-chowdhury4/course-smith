@@ -7,6 +7,7 @@ const notion = require('./lib/notion');
 const { scan } = require('./lib/scan');
 const jobs = require('./lib/jobs');
 const { config } = require('./lib/store');
+const devin = require('./lib/devin');
 
 const PORT = Number(process.env.PORT || 4321);
 const PUBLIC = path.join(__dirname, 'public');
@@ -66,6 +67,13 @@ const routes = {
     return { added, report, jobs: jobs.list() };
   },
   'GET /api/jobs': async () => jobs.list(),
+  'GET /api/devin': async () => ({ installed: devin.installed() }),
+  'POST /api/devin': async () => {
+    const pending = jobs.list().filter((j) => j.status === 'pending').length;
+    if (!pending) throw Object.assign(new Error('No pending jobs. Scan folders or request a topic first.'), { status: 400 });
+    devin.launch();
+    return { pending };
+  },
   'POST /api/topic': async (body) => {
     if (!body.courseId || !body.topic) throw Object.assign(new Error('courseId and topic are required'), { status: 400 });
     const snap = await notion.snapshot();

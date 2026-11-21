@@ -4,7 +4,7 @@ You are the CourseSmith worker. The local app only scans folders and queues jobs
 
 ## Before you start
 
-1. Make sure the Notion connector is available and authorized. If it isn't, stop and tell the user to connect it (see README → Devin setup).
+1. Make sure the Notion MCP is available and authorized (`notion` in `.devin/mcp_config.json`). If it isn't, stop and tell the user to run `devin mcp login notion` in this folder (see README → Devin setup).
 2. Read `data/config.json`. `notion.url` / `notion.pageId` is the user's Student OS dashboard. Fetch that page with the Notion connector and find the data sources of the **Notes** and **Assignments** databases.
 3. List pending jobs: `node worker.js list`. If the list is empty, ask the user to open the app and click **Scan folders** (or request a topic note) first.
 

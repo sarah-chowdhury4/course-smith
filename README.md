@@ -12,9 +12,9 @@ Jobs are processed by the worker (Devin, through the Notion connector): it reads
 
 1. **Install** Node.js 18+, Python 3 and `pip install python-docx`, then clone this repo.
 2. **Notion:** make your own copy of the dashboard ([Notion setup](#notion-setup)).
-3. **Devin:** connect Notion to Devin once ([Devin setup](#devin-setup)).
+3. **Devin:** install the Devin CLI and connect it to Notion once ([Devin setup](#devin-setup)).
 4. **Run:** double-click the launcher for your OS ([Run](#run)), connect your dashboard, add your course folders and click **Scan folders**.
-5. **Process:** ask Devin to process the queue ([Daily use](#daily-use)).
+5. **Process:** click **Process with Devin** ([Daily use](#daily-use)).
 
 ## Notion setup
 
@@ -48,22 +48,25 @@ Switching to a different dashboard clears the saved course folders, because fold
 
 CourseSmith has no AI of its own and needs no API keys. Devin does the reading and writing, and uses [`AGENTS.md`](AGENTS.md) for the exact steps.
 
-1. **Devin account:** sign in at [app.devin.ai](https://app.devin.ai).
-2. **Connect Notion (once):** in Devin, go to **Customize → MCPs → Browse marketplace → Notion**, install it, and finish the Notion sign-in. Give it access to your copy of the dashboard. Details: [Devin MCP docs](https://docs.devin.ai/work-with-devin/mcp).
-3. **Let Devin reach your computer:** Devin sessions run in the cloud, so Devin asks for access to your machine to read your course folders and the job queue. Approve the request in [Devin Desktop](https://docs.devin.ai/desktop/introducing-devin-desktop), or run the `devin connect <CODE>` command shown on the request card with the [Devin CLI](https://docs.devin.ai/work-with-devin/local-hands). You approve each command Devin runs unless you turn on bypass.
+The app starts the [Devin CLI](https://docs.devin.ai/work-with-devin/devin-cli) on your computer for you, so there is nothing to paste. One-time setup:
+
+1. **Devin account:** sign up at [app.devin.ai](https://app.devin.ai).
+2. **Install the Devin CLI:**
+   - Windows: run the [installer](https://static.devin.ai/cli/devin-updater-x86_64-pc-windows.exe) ([ARM64](https://static.devin.ai/cli/devin-updater-aarch64-pc-windows.exe)), or in PowerShell: `irm https://static.devin.ai/cli/setup.ps1 | iex`
+   - macOS / Linux: `curl -fsSL https://cli.devin.ai/install.sh | bash` (or `brew install --cask devin-cli` on macOS)
+3. **Sign in:** open a new terminal and run `devin auth login`.
+4. **Connect Notion:** in the CourseSmith folder, run `devin mcp login notion` and allow access to your copy of the dashboard. The Notion server is already configured in `.devin/mcp_config.json`.
+5. **Restart CourseSmith** so it sees the newly installed `devin` command.
 
 ## Daily use
 
 1. Start CourseSmith, add any new files to your course folders and click **Scan folders**. Request topic notes if you want them.
-2. Start a Devin session and paste:
+2. Click **Process with Devin**, or tick **Start Devin automatically after a scan**. A terminal window opens where Devin writes the notes and assignment drafts, creates the Notion pages with the course linked, and marks each job done.
+3. Finished jobs show a link to their Notion page in the app. Close the terminal when Devin is done.
 
-   ```text
-   Process my CourseSmith queue. The project is at <full path to your CourseSmith folder> on my computer.
-   Request access to my machine, then read AGENTS.md in that folder and follow it.
-   ```
+Devin runs in [Smart mode](https://docs.devin.ai/cli/reference/permissions#smart-mode): routine actions run on their own, and riskier ones (such as installing packages) ask in the terminal first. To change this, set `COURSESMITH_DEVIN_MODE` (for example `bypass` to never ask, or `normal` to always ask) before starting CourseSmith.
 
-3. Approve the machine-access request. Devin writes the notes and assignment drafts, creates the Notion pages with the course linked, and marks each job done.
-4. Refresh CourseSmith. Finished jobs show a link to their Notion page, and a new scan shows everything as synced.
+No CLI? You can also start a session at [app.devin.ai](https://app.devin.ai), connect the Notion MCP there, and ask: *Process my CourseSmith queue at <folder path> on my computer. Request access to my machine, then follow AGENTS.md.*
 
 ## Run
 
