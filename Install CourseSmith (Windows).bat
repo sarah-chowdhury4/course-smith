@@ -3,6 +3,8 @@ rem Double-click once to install everything CourseSmith needs: Python packages, 
 setlocal
 cd /d "%~dp0"
 title CourseSmith setup
+rem Devin Desktop terminals set ACP_BACKEND, which makes the Devin CLI ignore its own sign-in.
+set "ACP_BACKEND="
 echo == CourseSmith setup ==
 echo.
 

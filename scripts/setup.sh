@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Installs everything CourseSmith needs on macOS / Linux: Python packages, the Devin CLI, and the Devin + Notion sign-ins.
 cd "$(dirname "$0")/.." || exit 1
+unset ACP_BACKEND WINDSURF_IDE_TYPE
 
 if [ "$(uname)" = "Darwin" ]; then OPEN=open; else OPEN=xdg-open; fi
 fail() { echo; echo "Setup did not finish: $1"; read -r -p "Press Enter to close."; exit 1; }
